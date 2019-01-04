@@ -1,0 +1,40 @@
+
+---
+spring:
+  application:
+    name: sidecar
+  profiles: instance1
+server:
+  port: 9595
+sidecar:
+  port: 3000
+  health-uri: http://localhost:${sidecar.port}/health
+eureka:
+  instance:
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+
+---
+spring:
+  application:
+    name: sidecar
+  profiles: instance2
+server:
+  port: 9696
+sidecar:
+  port: 4000
+  health-uri: http://localhost:${sidecar.port}/health
+eureka:
+  instance:
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
